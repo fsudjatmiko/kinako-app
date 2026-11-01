@@ -12,7 +12,7 @@ import SwiftData
 struct KinakoAppApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            RootTabView()
         }
         .modelContainer(AppContainer.shared.container)
     }
