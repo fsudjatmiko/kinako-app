@@ -131,6 +131,7 @@ struct HomeView: View {
             }
             .navigationTitle("Kinako")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
@@ -150,16 +151,16 @@ struct HomeView: View {
                     } label: {
                         HStack(spacing: 4) {
                             Text(activeDisplayCurrency)
-                                .font(.kinakoTelemetry)
+                                .font(.system(size: 13, weight: .semibold, design: .rounded))
                                 .foregroundStyle(KinakoColor.textPrimary)
                             Image(systemName: "chevron.down")
-                                .font(.caption2)
+                                .font(.system(size: 10, weight: .semibold))
                                 .foregroundStyle(KinakoColor.accentLavender)
                         }
                         .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(KinakoColor.canvasCard, in: SandalphonChamfer(cut: 6))
-                        .overlay(SandalphonChamfer(cut: 6).stroke(KinakoColor.accentLavender.opacity(0.4), lineWidth: 1))
+                        .padding(.vertical, 5)
+                        .background(KinakoColor.canvasCard, in: Capsule())
+                        .overlay(Capsule().stroke(Color.white.opacity(0.12), lineWidth: 0.5))
                     }
                 }
 
@@ -168,13 +169,15 @@ struct HomeView: View {
                         KinakoHaptic.keyPress()
                         showAddExpense = true
                     } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "plus")
-                            Text("Add Expense")
-                        }
-                        .font(.kinakoBody)
-                        .foregroundStyle(KinakoColor.accentLavender)
+                        Image(systemName: "plus")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(KinakoColor.accentLavender)
+                            .frame(width: 32, height: 32)
+                            .background(KinakoColor.canvasCard)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(KinakoColor.accentLavender.opacity(0.4), lineWidth: 1))
                     }
+                    .accessibilityLabel("Add Expense")
                 }
             }
             .sheet(isPresented: $showAddExpense) {
