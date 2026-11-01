@@ -405,7 +405,7 @@ struct HomeView: View {
     private func seedInitialStateIfNeeded() {
         Task { @MainActor in
             let service = ExchangeRateService.shared
-            try? await service.seedInitialRatesIfNeeded(in: modelContext)
+            _ = try? await service.seedInitialRatesIfNeeded(in: modelContext)
 
             if userSettingsList.isEmpty {
                 let initialSettings = UserSettings(

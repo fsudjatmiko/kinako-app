@@ -172,7 +172,7 @@ actor ExchangeRateService {
     }
 }
 
-private struct SeedPayload: Decodable {
+private nonisolated struct SeedPayload: Decodable, Sendable {
     let base: String
     let updated_at: String
     let rates: [String: Double]

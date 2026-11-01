@@ -24,12 +24,6 @@ final class AppContainer {
             ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil ||
             ProcessInfo.processInfo.arguments.contains("-ui_testing_mode")
 
-        #if targetEnvironment(simulator)
-        let isSimulator = true
-        #else
-        let isSimulator = false
-        #endif
-
         if isTesting {
             let testConfig = ModelConfiguration(
                 schema: schema,
@@ -44,11 +38,20 @@ final class AppContainer {
             }
         }
 
-        let configuration = ModelConfiguration(
+        let configuration: ModelConfiguration
+        #if targetEnvironment(simulator)
+        configuration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitDatabase: isSimulator ? .none : .private("iCloud.com.fsudjatmiko.KinakoApp")
+            cloudKitDatabase: .none
         )
+        #else
+        configuration = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .private("iCloud.com.fsudjatmiko.KinakoApp")
+        )
+        #endif
 
         do {
             container = try ModelContainer(for: schema, configurations: [configuration])
