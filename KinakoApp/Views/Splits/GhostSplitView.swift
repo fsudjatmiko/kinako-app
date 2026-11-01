@@ -36,7 +36,7 @@ struct GhostSplitView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                KinakoColor.canvasMidnight
+                KinakoColor.backgroundCanvas
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -48,9 +48,9 @@ struct GhostSplitView: View {
                         if !pendingTransactions.isEmpty {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("OUTSTANDING CLAIMS")
-                                    .font(.kinakoSectionHeader)
+                                    .font(.helveticaTitle(size: 12, weight: .bold))
                                     .tracking(1.5)
-                                    .foregroundStyle(KinakoColor.accentLavender)
+                                    .foregroundStyle(KinakoColor.accentPrimary)
 
                                 ForEach(pendingTransactions) { tx in
                                     ghostSplitRow(tx: tx, isPending: true)
@@ -62,9 +62,9 @@ struct GhostSplitView: View {
                         if !settledTransactions.isEmpty {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("SETTLED REIMBURSEMENTS")
-                                    .font(.kinakoSectionHeader)
+                                    .font(.helveticaTitle(size: 12, weight: .bold))
                                     .tracking(1.5)
-                                    .foregroundStyle(KinakoColor.textMuted)
+                                    .foregroundStyle(KinakoColor.textSecondary)
 
                                 ForEach(settledTransactions) { tx in
                                     ghostSplitRow(tx: tx, isPending: false)
@@ -79,7 +79,7 @@ struct GhostSplitView: View {
                     .padding(20)
                 }
             }
-            .navigationTitle("Splits")
+            .navigationTitle("Shared Bills")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         }
@@ -90,39 +90,39 @@ struct GhostSplitView: View {
     private var receivablesHeroCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("RECEIVABLES TRAY")
-                    .font(.kinakoTelemetry)
+                Text("OWED TO YOU")
+                    .font(.helveticaTitle(size: 12, weight: .bold))
                     .tracking(1.2)
                     .foregroundStyle(KinakoColor.textSecondary)
 
                 Spacer()
 
                 Text("\(pendingTransactions.count) PENDING")
-                    .font(.kinakoTelemetry)
+                    .font(.helveticaCaption(size: 11, weight: .bold))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
-                    .background(KinakoColor.accentLavender.opacity(0.15))
+                    .background(KinakoColor.accentPrimary.opacity(0.12))
                     .clipShape(Capsule())
-                    .foregroundStyle(KinakoColor.accentLavender)
+                    .foregroundStyle(KinakoColor.accentPrimary)
             }
 
             Text(formatCurrency(amount: totalPendingReceivable, currency: baseCurrency))
-                .font(.kinakoHeroBalance)
+                .font(.helveticaNumbers(size: 38, weight: .bold))
                 .foregroundStyle(KinakoColor.textPrimary)
 
-            Text("Reimbursements owed to you that are isolated from your personal budget burn.")
-                .font(.kinakoTelemetry)
-                .foregroundStyle(KinakoColor.textMuted)
+            Text("Tracked reimbursements isolated from your personal daily budget burn.")
+                .font(.helveticaBody(size: 13))
+                .foregroundStyle(KinakoColor.textSecondary)
         }
         .padding(20)
-        .astralSurface(cut: 10, accentColor: KinakoColor.accentLavender)
+        .astralSurface(cut: 10, accentColor: KinakoColor.accentPrimary)
     }
 
     private func ghostSplitRow(tx: Transaction, isPending: Bool) -> some View {
         HStack(alignment: .center, spacing: 14) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(tx.title.isEmpty ? tx.categoryId.capitalized : tx.title)
-                    .font(.kinakoBody)
+                    .font(.helveticaTitle(size: 15, weight: .bold))
                     .foregroundStyle(KinakoColor.textPrimary)
 
                 HStack(spacing: 8) {
@@ -130,16 +130,16 @@ struct GhostSplitView: View {
                     Text("•")
                     Text("My Share: \(formatCurrency(amount: tx.myShareAmount ?? tx.originalAmount, currency: tx.originalCurrencyCode))")
                 }
-                .font(.kinakoTelemetry)
-                .foregroundStyle(KinakoColor.textMuted)
+                .font(.helveticaCaption(size: 12, weight: .regular))
+                .foregroundStyle(KinakoColor.textSecondary)
             }
 
             Spacer()
 
             VStack(alignment: .trailing, spacing: 6) {
                 Text(formatCurrency(amount: tx.pendingReimbursement ?? 0, currency: tx.originalCurrencyCode))
-                    .font(.kinakoCardAmount)
-                    .foregroundStyle(isPending ? KinakoColor.accentLavender : KinakoColor.textMuted)
+                    .font(.helveticaNumbers(size: 16, weight: .bold))
+                    .foregroundStyle(isPending ? KinakoColor.accentPrimary : KinakoColor.textSecondary)
 
                 if isPending {
                     Button {
@@ -150,10 +150,10 @@ struct GhostSplitView: View {
                         }
                     } label: {
                         Text("Settle")
-                            .font(.system(size: 11, weight: .semibold))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                            .background(KinakoColor.accentMagenta.opacity(0.2))
+                            .font(.helveticaCaption(size: 11, weight: .bold))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 5)
+                            .background(KinakoColor.accentMagenta.opacity(0.18))
                             .overlay(
                                 Capsule()
                                     .stroke(KinakoColor.accentMagenta.opacity(0.6), lineWidth: 0.8)
@@ -164,30 +164,30 @@ struct GhostSplitView: View {
                     .buttonStyle(.plain)
                 } else {
                     Text("Settled")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.helveticaCaption(size: 11, weight: .bold))
                         .foregroundStyle(KinakoColor.statusNormal)
                 }
             }
         }
         .padding(16)
-        .astralSurface(cut: 8, accentColor: isPending ? KinakoColor.accentLavender : KinakoColor.canvasCard, showGlow: false)
+        .astralSurface(cut: 8, accentColor: isPending ? KinakoColor.accentPrimary : KinakoColor.cardSurface, showGlow: false)
     }
 
     private var emptyStateView: some View {
         VStack(spacing: 12) {
             Image(systemName: "person.2.slash")
                 .font(.system(size: 40))
-                .foregroundStyle(KinakoColor.textMuted.opacity(0.5))
+                .foregroundStyle(KinakoColor.textSecondary.opacity(0.5))
 
-            Text("No Split Expenses")
-                .font(.kinakoBody)
+            Text("No Shared Bills")
+                .font(.helveticaTitle(size: 18, weight: .bold))
+                .foregroundStyle(KinakoColor.textPrimary)
+
+            Text("When you pay for a group, split the cost to track reimbursements without skewing your personal budget.")
+                .font(.helveticaBody(size: 14))
                 .foregroundStyle(KinakoColor.textSecondary)
-
-            Text("When logging a group dinner or bill, toggle 'Split Outing' in the Add Expense sheet to track friend reimbursements here without skewing your personal budget.")
-                .font(.kinakoTelemetry)
-                .foregroundStyle(KinakoColor.textMuted)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 24)
         }
         .padding(.vertical, 40)
     }

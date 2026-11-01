@@ -69,7 +69,7 @@ struct AddExpenseSheet: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                KinakoColor.canvasMidnight
+                KinakoColor.backgroundCanvas
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -97,6 +97,7 @@ struct AddExpenseSheet: View {
                     Button("Cancel") {
                         dismiss()
                     }
+                    .font(.helveticaBody(size: 16))
                     .foregroundStyle(KinakoColor.textSecondary)
                 }
 
@@ -104,8 +105,8 @@ struct AddExpenseSheet: View {
                     Button("Save") {
                         saveExpense()
                     }
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(isFormValid ? KinakoColor.accentLavender : KinakoColor.textMuted)
+                    .font(.helveticaTitle(size: 16, weight: .bold))
+                    .foregroundStyle(isFormValid ? KinakoColor.accentPrimary : KinakoColor.textSecondary)
                     .disabled(!isFormValid)
                 }
             }
@@ -134,21 +135,21 @@ struct AddExpenseSheet: View {
                 } label: {
                     HStack(spacing: 4) {
                         Text(selectedCurrency)
-                            .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .foregroundStyle(KinakoColor.accentLavender)
+                            .font(.helveticaTitle(size: 18, weight: .bold))
+                            .foregroundStyle(KinakoColor.accentPrimary)
                         Image(systemName: "chevron.down")
                             .font(.system(size: 11, weight: .bold))
-                            .foregroundStyle(KinakoColor.accentLavender)
+                            .foregroundStyle(KinakoColor.accentPrimary)
                     }
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
-                    .background(KinakoColor.canvasMidnight.opacity(0.8), in: Capsule())
-                    .overlay(Capsule().stroke(KinakoColor.accentLavender.opacity(0.4), lineWidth: 0.8))
+                    .background(KinakoColor.accentSubtle, in: Capsule())
+                    .overlay(Capsule().stroke(KinakoColor.accentPrimary.opacity(0.4), lineWidth: 0.8))
                 }
 
                 TextField("0", text: $amountString)
                     .keyboardType(.decimalPad)
-                    .font(.system(size: 44, weight: .bold, design: .rounded))
+                    .font(.helveticaNumbers(size: 44, weight: .bold))
                     .foregroundStyle(KinakoColor.textPrimary)
                     .multilineTextAlignment(.leading)
                     .minimumScaleFactor(0.5)
@@ -165,7 +166,7 @@ struct AddExpenseSheet: View {
                         .foregroundStyle(KinakoColor.accentMagenta)
 
                     Text("≈ \(formatCurrency(amount: convertedBaseAmount, currency: homeCurrency)) (\(homeCurrency))")
-                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                        .font(.helveticaCaption(size: 14, weight: .regular))
                         .foregroundStyle(KinakoColor.textSecondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -179,53 +180,53 @@ struct AddExpenseSheet: View {
                         .foregroundStyle(KinakoColor.statusWarning)
 
                     Text(timeCost)
-                        .font(.kinakoTelemetry)
-                        .foregroundStyle(KinakoColor.textMuted)
+                        .font(.helveticaCaption(size: 12, weight: .regular))
+                        .foregroundStyle(KinakoColor.textSecondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding(20)
-        .astralSurface(cut: 10, accentColor: KinakoColor.accentLavender)
+        .astralSurface(cut: 10, accentColor: KinakoColor.accentPrimary)
     }
 
     private var detailsCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("TRANSACTION DETAILS")
-                .font(.kinakoSectionHeader)
+                .font(.helveticaTitle(size: 12, weight: .bold))
                 .tracking(1.5)
-                .foregroundStyle(KinakoColor.accentLavender)
+                .foregroundStyle(KinakoColor.accentPrimary)
 
             TextField("Title (e.g. Lunch with team)", text: $title)
-                .font(.kinakoBody)
+                .font(.helveticaBody(size: 15))
                 .foregroundStyle(KinakoColor.textPrimary)
                 .padding(12)
-                .background(KinakoColor.canvasMidnight.opacity(0.6), in: RoundedRectangle(cornerRadius: 8))
+                .background(KinakoColor.accentSubtle, in: RoundedRectangle(cornerRadius: 8))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 0.5)
+                        .stroke(KinakoColor.accentSubtle, lineWidth: 0.5)
                 )
 
             TextField("Notes (optional)", text: $note)
-                .font(.kinakoBody)
+                .font(.helveticaBody(size: 15))
                 .foregroundStyle(KinakoColor.textPrimary)
                 .padding(12)
-                .background(KinakoColor.canvasMidnight.opacity(0.6), in: RoundedRectangle(cornerRadius: 8))
+                .background(KinakoColor.accentSubtle, in: RoundedRectangle(cornerRadius: 8))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 0.5)
+                        .stroke(KinakoColor.accentSubtle, lineWidth: 0.5)
                 )
         }
         .padding(18)
-        .astralSurface(cut: 10, accentColor: KinakoColor.canvasCard, showGlow: false)
+        .astralSurface(cut: 10, accentColor: KinakoColor.cardSurface, showGlow: false)
     }
 
     private var categoryCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("CATEGORY")
-                .font(.kinakoSectionHeader)
+                .font(.helveticaTitle(size: 12, weight: .bold))
                 .tracking(1.5)
-                .foregroundStyle(KinakoColor.accentLavender)
+                .foregroundStyle(KinakoColor.accentPrimary)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -235,17 +236,17 @@ struct AddExpenseSheet: View {
                             KinakoHaptic.keyPress()
                         } label: {
                             Text(cat)
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.helveticaCaption(size: 13, weight: .medium))
                                 .foregroundStyle(selectedCategory == cat ? Color.white : KinakoColor.textSecondary)
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 8)
                                 .background(
-                                    selectedCategory == cat ? KinakoColor.regalPurple : KinakoColor.canvasMidnight.opacity(0.6),
+                                    selectedCategory == cat ? KinakoColor.accentPrimary : KinakoColor.accentSubtle,
                                     in: Capsule()
                                 )
                                 .overlay(
                                     Capsule()
-                                        .stroke(selectedCategory == cat ? KinakoColor.accentLavender : Color.white.opacity(0.12), lineWidth: 1)
+                                        .stroke(selectedCategory == cat ? KinakoColor.accentPrimary : Color.clear, lineWidth: 1)
                                 )
                         }
                         .buttonStyle(.plain)
@@ -254,7 +255,7 @@ struct AddExpenseSheet: View {
             }
         }
         .padding(18)
-        .astralSurface(cut: 10, accentColor: KinakoColor.canvasCard, showGlow: false)
+        .astralSurface(cut: 10, accentColor: KinakoColor.cardSurface, showGlow: false)
     }
 
     private var splitOutingCard: some View {
@@ -262,14 +263,14 @@ struct AddExpenseSheet: View {
             Toggle(isOn: $isSplitExpense) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Split Outing")
-                        .font(.kinakoBody)
+                        .font(.helveticaTitle(size: 15, weight: .bold))
                         .foregroundStyle(KinakoColor.textPrimary)
-                    Text("Asymmetric group reimbursement ledger")
-                        .font(.kinakoTelemetry)
-                        .foregroundStyle(KinakoColor.textMuted)
+                    Text("Track friend reimbursement in Shared Bills")
+                        .font(.helveticaCaption(size: 12, weight: .regular))
+                        .foregroundStyle(KinakoColor.textSecondary)
                 }
             }
-            .tint(KinakoColor.accentLavender)
+            .tint(KinakoColor.accentPrimary)
             .onChange(of: isSplitExpense) { _, newValue in
                 KinakoHaptic.keyPress()
                 if newValue && myShareString.isEmpty {
@@ -278,33 +279,34 @@ struct AddExpenseSheet: View {
             }
 
             if isSplitExpense {
-                Divider().background(Color.white.opacity(0.1))
+                Divider()
+                    .overlay(KinakoColor.accentSubtle)
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("MY PERSONAL SHARE")
-                        .font(.kinakoSectionHeader)
-                        .foregroundStyle(KinakoColor.accentLavender)
+                        .font(.helveticaTitle(size: 12, weight: .bold))
+                        .foregroundStyle(KinakoColor.accentPrimary)
 
                     HStack {
                         Text(selectedCurrency)
-                            .font(.kinakoTelemetry)
+                            .font(.helveticaCaption(size: 13, weight: .bold))
                             .foregroundStyle(KinakoColor.textSecondary)
 
                         TextField("0.00", text: $myShareString)
                             .keyboardType(.decimalPad)
-                            .font(.kinakoCardAmount)
+                            .font(.helveticaNumbers(size: 18, weight: .bold))
                             .foregroundStyle(KinakoColor.textPrimary)
                     }
                     .padding(12)
-                    .background(KinakoColor.canvasMidnight.opacity(0.6), in: RoundedRectangle(cornerRadius: 8))
+                    .background(KinakoColor.accentSubtle, in: RoundedRectangle(cornerRadius: 8))
 
                     HStack {
                         Text("Pending from others:")
-                            .font(.kinakoTelemetry)
+                            .font(.helveticaCaption(size: 12, weight: .regular))
                             .foregroundStyle(KinakoColor.textSecondary)
                         Spacer()
                         Text(formatCurrency(amount: pendingReimbursement, currency: selectedCurrency))
-                            .font(.kinakoTelemetry)
+                            .font(.helveticaNumbers(size: 14, weight: .bold))
                             .foregroundStyle(KinakoColor.accentMagenta)
                     }
                     .padding(.top, 4)
@@ -312,7 +314,7 @@ struct AddExpenseSheet: View {
             }
         }
         .padding(18)
-        .astralSurface(cut: 10, accentColor: isSplitExpense ? KinakoColor.accentMagenta : KinakoColor.canvasCard, showGlow: isSplitExpense)
+        .astralSurface(cut: 10, accentColor: isSplitExpense ? KinakoColor.accentMagenta : KinakoColor.cardSurface, showGlow: isSplitExpense)
     }
 
     // MARK: - Actions

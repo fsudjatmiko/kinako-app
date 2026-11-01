@@ -194,59 +194,64 @@ struct HomeView: View {
     private var heroSafeToSpendCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text("SAFE-TO-SPEND")
-                    .font(.kinakoSectionHeader)
-                    .tracking(2)
+                Text("SAFE TO SPEND")
+                    .font(.helveticaTitle(size: 12, weight: .bold))
+                    .tracking(1.5)
                     .foregroundStyle(KinakoColor.textSecondary)
 
                 Spacer()
 
-                // State Pill
-                Text(budgetState.statusCopy)
-                    .font(.kinakoTelemetry)
-                    .foregroundStyle(budgetState.accentColor)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(budgetState.accentColor.opacity(0.12), in: Capsule())
-                    .overlay(Capsule().stroke(budgetState.accentColor.opacity(0.6), lineWidth: 1))
+                // Subtle Status Indicator
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(budgetState.accentColor)
+                        .frame(width: 8, height: 8)
+                    Text(budgetState.statusCopy)
+                        .font(.helveticaTitle(size: 11, weight: .bold))
+                        .foregroundStyle(budgetState.accentColor)
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(budgetState.accentColor.opacity(0.12), in: Capsule())
             }
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(convertedDailyBudget.formatted(.currency(code: activeDisplayCurrency)))
-                    .font(.kinakoHeroBalance)
+                    .font(.helveticaNumbers(size: 38, weight: .bold))
                     .foregroundStyle(KinakoColor.textPrimary)
 
-                Text("DAILY BURN ALLOWANCE • \(daysRemainingInMonth) DAYS REMAINING")
-                    .font(.kinakoTelemetry)
-                    .foregroundStyle(KinakoColor.textMuted)
+                Text("DAILY ALLOWANCE • \(daysRemainingInMonth) DAYS REMAINING")
+                    .font(.helveticaCaption(size: 11, weight: .bold))
+                    .foregroundStyle(KinakoColor.textSecondary)
             }
 
-            Divider().background(Color.white.opacity(0.1))
+            Divider()
+                .overlay(KinakoColor.accentSubtle)
 
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("REMAINING BUDGET")
-                        .font(.kinakoTelemetry)
-                        .foregroundStyle(KinakoColor.textMuted)
+                        .font(.helveticaCaption(size: 10, weight: .bold))
+                        .foregroundStyle(KinakoColor.textSecondary)
                     Text(pacingData.remainingBudget.formatted(.currency(code: homeCurrency)))
-                        .font(.kinakoCardAmount)
+                        .font(.helveticaNumbers(size: 17, weight: .bold))
                         .foregroundStyle(KinakoColor.textPrimary)
                 }
 
                 Spacer()
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("MONTHLY CAP")
-                        .font(.kinakoTelemetry)
-                        .foregroundStyle(KinakoColor.textMuted)
+                    Text("MONTHLY TARGET")
+                        .font(.helveticaCaption(size: 10, weight: .bold))
+                        .foregroundStyle(KinakoColor.textSecondary)
                     Text(monthlyCap.formatted(.currency(code: homeCurrency)))
-                        .font(.kinakoCardAmount)
+                        .font(.helveticaNumbers(size: 17, weight: .bold))
                         .foregroundStyle(KinakoColor.textSecondary)
                 }
             }
         }
         .padding(20)
-        .astralSurface(cut: 16, accentColor: budgetState.accentColor)
+        .astralSurface(cut: 12, accentColor: budgetState.accentColor)
     }
 
     private var receivablesBanner: some View {
@@ -254,12 +259,13 @@ struct HomeView: View {
             HStack {
                 Image(systemName: "person.2.fill")
                     .foregroundStyle(KinakoColor.accentMagenta)
-                Text("GHOST SPLIT RECEIVABLES")
-                    .font(.kinakoSectionHeader)
+                Text("SHARED BILLS RECEIVABLES")
+                    .font(.helveticaTitle(size: 12, weight: .bold))
+                    .tracking(1.2)
                     .foregroundStyle(KinakoColor.accentMagenta)
                 Spacer()
                 Text("\(pendingReimbursements.count) PENDING")
-                    .font(.kinakoTelemetry)
+                    .font(.helveticaCaption(size: 11, weight: .bold))
                     .foregroundStyle(KinakoColor.textSecondary)
             }
 
@@ -267,10 +273,10 @@ struct HomeView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(tx.title)
-                            .font(.kinakoBody)
+                            .font(.helveticaBody(size: 15))
                             .foregroundStyle(KinakoColor.textPrimary)
                         Text("Owed: \((tx.pendingReimbursement ?? 0).formatted(.currency(code: tx.originalCurrencyCode)))")
-                            .font(.kinakoTelemetry)
+                            .font(.helveticaCaption(size: 12, weight: .regular))
                             .foregroundStyle(KinakoColor.textSecondary)
                     }
                     Spacer()
@@ -281,48 +287,48 @@ struct HomeView: View {
                             try? modelContext.save()
                         }
                     }
-                    .font(.kinakoTelemetry)
-                    .foregroundStyle(KinakoColor.accentLavender)
+                    .font(.helveticaCaption(size: 11, weight: .bold))
+                    .foregroundStyle(KinakoColor.accentPrimary)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
-                    .background(KinakoColor.canvasMidnight, in: RoundedRectangle(cornerRadius: 6))
+                    .background(KinakoColor.cardSurface, in: RoundedRectangle(cornerRadius: 6))
                 }
                 .padding(8)
-                .background(KinakoColor.canvasMidnight.opacity(0.4), in: RoundedRectangle(cornerRadius: 8))
+                .background(KinakoColor.accentSubtle, in: RoundedRectangle(cornerRadius: 8))
             }
         }
         .padding(16)
-        .astralSurface(cut: 12, accentColor: KinakoColor.accentMagenta, showGlow: false)
+        .astralSurface(cut: 10, accentColor: KinakoColor.accentMagenta, showGlow: false)
     }
 
     private var transactionsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("RECENT ACTIVITY")
-                    .font(.kinakoSectionHeader)
-                    .tracking(2)
-                    .foregroundStyle(KinakoColor.accentLavender)
+                    .font(.helveticaTitle(size: 12, weight: .bold))
+                    .tracking(1.5)
+                    .foregroundStyle(KinakoColor.accentPrimary)
                 Spacer()
                 Text("\(transactions.count) LOGGED")
-                    .font(.kinakoTelemetry)
-                    .foregroundStyle(KinakoColor.textMuted)
+                    .font(.helveticaCaption(size: 11, weight: .bold))
+                    .foregroundStyle(KinakoColor.textSecondary)
             }
 
             if transactions.isEmpty {
                 VStack(spacing: 8) {
                     Image(systemName: "tray")
                         .font(.system(size: 32))
-                        .foregroundStyle(KinakoColor.textMuted)
+                        .foregroundStyle(KinakoColor.textSecondary.opacity(0.6))
                     Text("No transactions logged yet.")
-                        .font(.kinakoBody)
+                        .font(.helveticaBody(size: 15))
+                        .foregroundStyle(KinakoColor.textPrimary)
+                    Text("Tap '+' to record your first purchase.")
+                        .font(.helveticaCaption(size: 12, weight: .regular))
                         .foregroundStyle(KinakoColor.textSecondary)
-                    Text("Tap 'Add Expense' to record your first purchase.")
-                        .font(.kinakoTelemetry)
-                        .foregroundStyle(KinakoColor.textMuted)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(32)
-                .astralSurface(cut: 12, accentColor: KinakoColor.accentLavender, showGlow: false)
+                .astralSurface(cut: 10, accentColor: KinakoColor.accentPrimary, showGlow: false)
             } else {
                 ForEach(transactions) { tx in
                     transactionRow(tx)
@@ -336,30 +342,30 @@ struct HomeView: View {
             // Category Icon Badge
             ZStack {
                 Circle()
-                    .fill(KinakoColor.regalPurple.opacity(0.4))
+                    .fill(KinakoColor.accentSubtle)
                     .frame(width: 40, height: 40)
                 Image(systemName: iconForCategory(tx.categoryId))
-                    .foregroundStyle(KinakoColor.accentLavender)
+                    .foregroundStyle(KinakoColor.accentPrimary)
             }
 
             // Title & Metadata
             VStack(alignment: .leading, spacing: 3) {
                 Text(tx.title)
-                    .font(.kinakoBody)
+                    .font(.helveticaTitle(size: 15, weight: .bold))
                     .foregroundStyle(KinakoColor.textPrimary)
 
                 HStack(spacing: 6) {
                     Text(tx.categoryId.capitalized)
-                        .font(.kinakoTelemetry)
+                        .font(.helveticaCaption(size: 12, weight: .regular))
                         .foregroundStyle(KinakoColor.textSecondary)
 
                     if tx.isSplitExpense {
                         Text("•")
-                            .font(.kinakoTelemetry)
-                            .foregroundStyle(KinakoColor.textMuted)
-                        Text(tx.isReimbursed ? "Reimbursed" : "Split Outing")
-                            .font(.kinakoTelemetry)
-                            .foregroundStyle(tx.isReimbursed ? KinakoColor.accentLavender : KinakoColor.accentMagenta)
+                            .font(.helveticaCaption(size: 12, weight: .regular))
+                            .foregroundStyle(KinakoColor.textSecondary)
+                        Text(tx.isReimbursed ? "Reimbursed" : "Shared Bill")
+                            .font(.helveticaCaption(size: 11, weight: .bold))
+                            .foregroundStyle(tx.isReimbursed ? KinakoColor.accentPrimary : KinakoColor.accentMagenta)
                     }
                 }
             }
@@ -369,18 +375,18 @@ struct HomeView: View {
             // Amount Display
             VStack(alignment: .trailing, spacing: 2) {
                 Text(tx.originalAmount.formatted(.currency(code: tx.originalCurrencyCode)))
-                    .font(.kinakoCardAmount)
+                    .font(.helveticaNumbers(size: 16, weight: .bold))
                     .foregroundStyle(KinakoColor.textPrimary)
 
                 if tx.originalCurrencyCode != homeCurrency {
                     Text("≈ \(tx.baseAmount.formatted(.currency(code: homeCurrency)))")
-                        .font(.kinakoTelemetry)
-                        .foregroundStyle(KinakoColor.textMuted)
+                        .font(.helveticaCaption(size: 11, weight: .regular))
+                        .foregroundStyle(KinakoColor.textSecondary)
                 }
             }
         }
         .padding(14)
-        .astralSurface(cut: 10, accentColor: KinakoColor.accentLavender, showGlow: false)
+        .astralSurface(cut: 10, accentColor: KinakoColor.accentPrimary, showGlow: false)
         .contextMenu {
             Button(role: .destructive) {
                 withAnimation(.kinakoSnap) {
