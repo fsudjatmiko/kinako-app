@@ -21,24 +21,23 @@ struct RootTabView: View {
 
             GhostSplitView()
                 .tabItem {
-                    Label("Splits", systemImage: "person.2.fill")
+                    Label("Shared Bills", systemImage: "person.2.fill")
                 }
                 .tag(1)
 
             RegretAuditView()
                 .tabItem {
-                    Label("Audits", systemImage: "sparkles")
+                    Label("Spending Insights", systemImage: "sparkles")
                 }
                 .tag(2)
 
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
+                    Label("Profile", systemImage: "person.crop.circle.fill")
                 }
                 .tag(3)
         }
-        .tint(KinakoColor.accentLavender)
-        .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+        .tint(KinakoColor.accentPrimary)
     }
 }
 
@@ -46,4 +45,3 @@ struct RootTabView: View {
     RootTabView()
         .modelContainer(for: [Transaction.self, CurrencyRateRecord.self, UserSettings.self], inMemory: true)
 }
-
