@@ -10,7 +10,7 @@ import SwiftUI
 public struct SandalphonChamfer: Shape {
     public var cut: CGFloat
 
-    public init(cut: CGFloat = 12) {
+    public init(cut: CGFloat = 10) {
         self.cut = cut
     }
 

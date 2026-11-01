@@ -9,8 +9,8 @@ import SwiftUI
 
 public enum KinakoColor {
     // Canvas & Structural Backgrounds
-    public static let canvasMidnight      = Color(hex: "#0F071D") // Deep Astral Void
-    public static let canvasCard          = Color(hex: "#180D2E") // Armored Slate Base
+    public static let canvasMidnight      = Color(hex: "#0B0614") // Deep Obsidian Astral Void
+    public static let canvasCard          = Color(hex: "#140C24") // Armored Deep Slate Base
     public static let surfaceFrosted      = Color.white.opacity(0.04)
 
     // Astral Tohka Energy Trims
@@ -24,10 +24,10 @@ public enum KinakoColor {
     public static let statusWarning       = Color(hex: "#F59E0B") // Budget Pressure Alert
     public static let statusInverse       = Color(hex: "#E11D48") // Tenka Dark Deficit
 
-    // Text Hierarchy
-    public static let textPrimary         = Color.white
-    public static let textSecondary       = Color(hex: "#94A3B8")
-    public static let textMuted           = Color(hex: "#64748B")
+    // Text Hierarchy (WCAG AAA compliant on deep backgrounds)
+    public static let textPrimary         = Color(hex: "#FFFFFF") // Pure White (High Emphasis)
+    public static let textSecondary       = Color(hex: "#CBD5E1") // High-Contrast Light Slate (Medium Emphasis)
+    public static let textMuted           = Color(hex: "#94A3B8") // Slate Muted Telemetry (Low Emphasis)
 }
 
 // Hex Color Initializer Extension
