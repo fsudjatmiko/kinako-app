@@ -8,7 +8,7 @@
 import SwiftUI
 import Foundation
 
-public enum BudgetState: Equatable, Sendable {
+public nonisolated enum BudgetState: Equatable, Sendable {
     case stable
     case highTension
     case inversionDeficit
@@ -24,6 +24,7 @@ public enum BudgetState: Equatable, Sendable {
         }
     }
 
+    @MainActor
     public var accentColor: Color {
         switch self {
         case .stable:
@@ -36,7 +37,7 @@ public enum BudgetState: Equatable, Sendable {
     }
 }
 
-public struct PacingEngine {
+public nonisolated struct PacingEngine {
     /// Calculates safe daily allowance and remaining budget for the current cycle
     public static func calculateSafeDaily(
         monthlyCap: Decimal,
